@@ -57,7 +57,6 @@ class Ccm19Integration {
 		// Add settings form
 		add_action('admin_menu', [$this, 'admin_menu']);
 		add_action('admin_init', [$this, 'admin_init']);
-		
 		// Load translations
 		load_plugin_textdomain('ccm19-integration', false, basename(__DIR__) . '/languages');
 	}
@@ -121,7 +120,9 @@ class Ccm19Integration {
 	{
 		$integration_url = $this->get_integration_url();
 		if ($integration_url) {
-			echo '<script src="'.$integration_url.'" referrerpolicy="origin"></script>', "\n";
+
+			add_action('wp_head',[$this,'script_register_header']);
+			//echo '<script src="'.$integration_url.'" referrerpolicy="origin"></script>', "\n";
 		}
 	}
 
@@ -177,5 +178,24 @@ class Ccm19Integration {
 			'<textarea id="ccm19-code" name="ccm19_code" cols="60" rows="4">%s</textarea>',
 			esc_attr(get_option('ccm19_code'))
 		);
+	}
+
+	/**
+	 * Callback: registers script and inserts it
+	 *
+	 * @return void
+	 */
+	public function script_register_header(){
+		$integration_url = array(
+			'insert' => $this->get_integration_url()
+		);
+
+		wp_register_script('header_insert',plugins_url('/admin/js/wp-head-script.js',__FILE__),array('jquery'));
+
+		wp_enqueue_script('header_insert');
+
+		//parses variable to script
+		wp_add_inline_script('header_insert','const HeadParam = ' . wp_json_encode( $integration_url ), 'before');
+
 	}
 }
