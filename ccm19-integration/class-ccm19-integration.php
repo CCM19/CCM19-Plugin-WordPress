@@ -120,9 +120,7 @@ class Ccm19Integration {
 	{
 		$integration_url = $this->get_integration_url();
 		if ($integration_url) {
-
 			add_action('wp_head',[$this,'script_register_header'],1);
-			//echo '<script src="'.$integration_url.'" referrerpolicy="origin"></script>', "\n";
 		}
 	}
 
@@ -153,7 +151,7 @@ class Ccm19Integration {
 		}
 		$integration_url = $this->get_integration_url();
 		$admin_url = ($integration_url) ? preg_replace('%/ccm19\.js?.*$%i', '/', $integration_url) : null;
-		include(__DIR__.'/options-page.php');
+		include( __DIR__ . '/options-page.php' );
 	}
 
 	/**
@@ -190,11 +188,9 @@ class Ccm19Integration {
 		$integration_url = array(
 			'insert' => $this->get_integration_url()
 		);
-
 		wp_register_script('header_insert',plugins_url('/public/js/wp-head-script.js',__FILE__),array('jquery'));
 		wp_enqueue_script('header_insert');
 
 		wp_add_inline_script('header_insert','const HeadParam = ' . wp_json_encode( $integration_url ), 'before');
-
 	}
 }
