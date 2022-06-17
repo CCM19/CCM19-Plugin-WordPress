@@ -25,7 +25,8 @@ class Ccm19Integration {
 	/**
 	 * @return self
 	 */
-	public static function getInstance() {
+	public static function getInstance()
+	{
 		if ( self::$instance === null ) {
 			self::$instance = new static();
 		}
@@ -36,7 +37,8 @@ class Ccm19Integration {
 	/**
 	 * @return void
 	 */
-	public static function staticInit() {
+	public static function staticInit()
+	{
 		$instance = static::getInstance();
 		$instance->init();
 	}
@@ -44,7 +46,8 @@ class Ccm19Integration {
 	/**
 	 * @return void
 	 */
-	public function init() {
+	public function init()
+	{
 		// Insert the script on wp_head with extreme priority
 		// so that it always runs before any other script.
 		add_action( 'wp_head', [ $this, 'on_wp_head' ], - 10 );
@@ -63,7 +66,8 @@ class Ccm19Integration {
 	 * Hook: Initialize plugin settings
 	 * @return void
 	 */
-	public function admin_init() {
+	public function admin_init()
+	{
 		if ( is_admin() ) {
 
 			// Add settings
@@ -96,7 +100,8 @@ class Ccm19Integration {
 	 *
 	 * @return string|null
 	 */
-	private function get_integration_url() {
+	private function get_integration_url()
+	{
 		$code = get_option( 'ccm19_code' );
 		if ( ! empty( $code ) ) {
 			$match = [];
@@ -124,7 +129,8 @@ class Ccm19Integration {
 	 * Hook: Register plugin settings menu
 	 * @return void
 	 */
-	public function admin_menu() {
+	public function admin_menu()
+	{
 		add_options_page(
 			__( 'CCM19 Integration Options', 'ccm19-integration' ),
 			__( 'CCM19 Cookie Consent', 'ccm19-integration' ),
@@ -133,13 +139,13 @@ class Ccm19Integration {
 			[ $this, 'options_page' ]
 		);
 	}
-
 	/**
 	 * Display options page
 	 *
 	 * @return void
 	 */
-	public function options_page() {
+	public function options_page()
+	{
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
@@ -153,7 +159,8 @@ class Ccm19Integration {
 	 *
 	 * @return void
 	 */
-	public function options_page_print_info() {
+	public function options_page_print_info()
+	{
 		_e( '<p>Enter your code snippet from CCM19 below to integrate the cookie consent management with your website.</p>', 'ccm19-integration' );
 		_e( '<p>If you don\'t yet have a CCM19 account or instance yet, buy or lease one on <a target="_blank" href="https://ccm19.de">ccm19.de</a>.</p>', 'ccm19-integration' );
 	}
@@ -163,7 +170,8 @@ class Ccm19Integration {
 	 *
 	 * @return void
 	 */
-	public function option_code_snippet_callback() {
+	public function option_code_snippet_callback()
+	{
 		printf(
 			'<textarea id="ccm19-code" name="ccm19_code" cols="60" rows="4">%s</textarea>',
 			esc_attr( get_option( 'ccm19_code' ) )
