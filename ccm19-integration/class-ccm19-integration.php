@@ -121,7 +121,7 @@ class Ccm19Integration {
 	public function on_wp_head() {
 		$integration_url = $this->get_integration_url();
 		if ( $integration_url ) {
-			wp_print_script_tag( [ 'src' => $integration_url, 'reffererpolicy' => 'origin' ] );
+			wp_print_script_tag( [ 'src' => $integration_url, 'refferrerpolicy' => 'origin' ] );
 		}
 	}
 
@@ -150,7 +150,7 @@ class Ccm19Integration {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 		$integration_url = $this->get_integration_url();
-		$admin_url       = ( $integration_url ) ? preg_replace( '%/ccm19\.js?.*$%i', '/', $integration_url ) : null;
+		$admin_url       = ( $integration_url ) ? preg_replace( '%/(ccm19|app)\.js?.*$%i', '/', $integration_url ) : null;
 		include( __DIR__ . '/options-page.php' );
 	}
 
