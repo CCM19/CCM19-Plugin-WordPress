@@ -121,7 +121,7 @@ class Ccm19Integration {
 	public function on_wp_head() {
 		$integration_url = $this->get_integration_url();
 		if ( $integration_url ) {
-			wp_print_script_tag( [ 'src' => $integration_url, 'refferrerpolicy' => 'origin' ] );
+			wp_print_script_tag( [ 'src' => $integration_url, 'referrerpolicy' => 'origin' ] );
 		}
 	}
 
