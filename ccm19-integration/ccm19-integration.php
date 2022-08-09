@@ -1,5 +1,5 @@
 <?php
-/*
+/**
 	Plugin Name: CCM19 Integration
 	Plugin URI: https://ccm19.de
 	Description: Integrates the CCM19 Cookie Consent Solution into Wordpress
