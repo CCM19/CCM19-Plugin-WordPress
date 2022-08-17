@@ -20,7 +20,7 @@
 
 		<?php if ($admin_url): ?>
 		<p>
-			<a href="<?php echo htmlspecialchars($admin_url); ?>" target="_blank" class="button button-secondary"><?php esc_html_e('Open CCM19 backend', 'ccm19-integration'); ?>
+			<a href="<?php echo esc_url($admin_url); ?>" target="_blank" class="button button-secondary"><?php esc_html_e('Open CCM19 backend', 'ccm19-integration'); ?>
 				<span class="dashicons dashicons-external" style="vertical-align: text-bottom;"></span>
 			</a>
 		</p>
