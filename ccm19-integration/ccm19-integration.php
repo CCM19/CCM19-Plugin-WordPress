@@ -38,4 +38,5 @@ $ccm19integration = CCM19Integration::getInstance();
 #register_activation_hook(__FILE__, ['CCM19Integration', 'plugin_activation']);
 #register_deactivation_hook(__FILE__, ['CCM19Integration', 'plugin_deactivation']);
 
+
 add_action( 'init', ['CCM19Integration', 'staticInit']);

@@ -2,8 +2,8 @@
 Contributors: ccm19
 Tags: cookie consent, cookie law, eu privacy directive, GDPR, DSGVO
 Requires at least: 4.7
-Tested up to: 6.0
-Stable tag: 1.0.1
+Tested up to: 6.0.2
+Stable tag: 1.1.1
 Requires PHP: 5.6
 License: GPLv2 or later
 

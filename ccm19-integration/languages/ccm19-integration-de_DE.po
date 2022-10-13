@@ -3,9 +3,9 @@
 # Christoph Grenz <christophg@grenz-bonn.de>, 2020.
 msgid ""
 msgstr ""
-"Project-Id-Version: CCM19 Integration 1.0\n"
+"Project-Id-Version: CCM19 Integration 1.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ccm19-integration\n"
-"Last-Translator: Christoph Grenz <cg@papoo.de>\n"
+"Last-Translator: Jona Stephan <js@papoo.de>\n"
 "Language-Team: Papoo <info@papoo.de>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
