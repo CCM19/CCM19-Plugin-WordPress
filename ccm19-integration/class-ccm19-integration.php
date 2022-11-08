@@ -67,7 +67,71 @@ class Ccm19Integration {
 		add_action( 'admin_init', [ $this, 'admin_init' ] );
 		// Load translations
 		load_plugin_textdomain( 'ccm19-integration', false, basename( __DIR__ ) . '/languages' );
+
+		//list all enqueued scripts (and styles). DEV only.
+		//add_action( 'wp_print_scripts', [$this,'prefix_show_me_the_scripts'] );
+
+
+		add_filter( 'script_loader_tag', [ $this, 'modify_script' ], 10, 3 );
+
 	}
+
+	//test purpose only
+	public function prefix_show_me_the_scripts() {
+		global $wp_scripts;
+		global $wp_styles;
+
+		echo 'SCRIPTS<br>';
+		foreach( $wp_scripts->queue as $handle ) :
+			echo $handle . ' <br> ';
+		endforeach;
+
+	/*	echo 'STYLES<br>';
+		foreach( $wp_styles->queue as $handle ) :
+			echo $handle . ' <br> ';
+		endforeach;*/
+	}
+
+	/**
+	 * mods the script which gets received from the api.
+	 *
+	 * @param $tag
+	 * @param $handle
+	 * @param $src
+	 *
+	 * @return array|mixed|string|string[]
+	 */
+	public function modify_script($tag,$handle, $src)
+	{
+		if ( ! has_filter( "script_loader_tag" ) ) {
+			$this -> write_log( "filter 'script_loader_tag' not added" );
+			wp_die( "no filter added" );
+		}
+
+		$new_src  = "type = text/x-ccm-loader data-ccm-loader-src";
+		$api_data = $this -> api_receiver();
+
+		if ( $api_data === $src ) {
+
+			return str_replace( 'src', $new_src, $tag );
+
+			//$tag = '<script type='.$type.'  data-ccm-loader-src="' . $src . '" id="' . $handle . '"></script>';
+
+		}
+
+		return $tag;
+
+
+	}
+
+
+	//behold the space for api receiver
+	public function api_receiver(){
+
+
+		return 'http://127.0.0.1/wp-includes/blocks/navigation/view.min.js?ver=009e29110e016c14bac4ba0ecc809fcd';
+	}
+
 
 	/**
 	 * Hook: Initialize plugin settings
@@ -110,6 +174,7 @@ class Ccm19Integration {
 	{
 
 		$code = get_site_option( 'ccm19_code' );
+
 		if ( ! empty( $code ) ) {
 			$match = [];
 			preg_match( '/\bsrc=([\'"])((?>[^"\'?#]|(?!\1)["\'])*\/(ccm19|app)\.js\?(?>[^"\']|(?!\1).)*)\1/i', $code, $match );
@@ -265,16 +330,11 @@ class Ccm19Integration {
 	}
 
 	//custom error log function for development only
-	public function custom_logs()
-	{
-		if ( ! function_exists('write_log')) {
-			function write_log ( $log )  {
-				if ( is_array( $log ) || is_object( $log ) ) {
-					error_log( print_r( $log, true ) );
-				} else {
-					error_log( $log );
-				}
-			}
+	public function write_log ( $log )  {
+		if ( is_array( $log ) || is_object( $log ) ) {
+			error_log( print_r( $log, true ) );
+		} else {
+			error_log( $log );
 		}
 	}
 }
