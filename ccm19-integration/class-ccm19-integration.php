@@ -54,6 +54,7 @@ class Ccm19Integration {
 		// Insert the script on wp_head with extreme priority
 		// so that it always runs before any other script.
 		add_action( 'wp_head', [ $this, 'on_wp_head' ], - 10 );
+        add_action('wp_loaded',[$this,'check_hook_conflicts']);
 		// Enqueue dummy script for dependency management
 		wp_register_script( 'ccm19', false, [], false, false );
 		wp_enqueue_script( 'ccm19' );
@@ -277,4 +278,36 @@ class Ccm19Integration {
 			}
 		}
 	}
+
+    function check_hook_conflicts() {
+        global $wp_filter;
+
+        $hook_name = 'wp_head';
+
+        // Loop through all hooks in WordPress
+        foreach ( $wp_filter[$hook_name] as $priority => $hook ) {
+            // Check if the hook has any other callbacks besides your plugin's callback
+            if ( count( $hook ) > 1 ) {
+                // Loop through all callbacks for the hook
+                foreach ( $hook as $callback ) {
+                    // Skip your plugin's callback
+                    if ( $callback['function'] == 'on_wp_head' ) {
+                        continue;
+                    }
+
+                    // Skip WordPress core callbacks on the wp_head hook
+                    if ( in_array( $callback['function'], array( 'wp_print_scripts', 'wp_print_head_scripts', 'wp_enqueue_scripts', 'wp_head' ) ) ) {
+                        continue;
+                    }
+
+                    if ( is_callable( $callback['function'] ) ) {
+                        error_log( 'conflicting with ' . get_class((object)$callback['function']) . ' on the ' . $hook_name . ' hook!' );
+                    } else {
+                        error_log( 'conflicting with ' . $callback['function'] . ' on the ' . $hook_name . ' hook!' );
+                    }
+
+                }
+            }
+        }
+    }
 }
