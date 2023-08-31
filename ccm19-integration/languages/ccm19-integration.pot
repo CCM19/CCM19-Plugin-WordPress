@@ -1,15 +1,15 @@
-# Copyright (C) 2022 Papoo Software &amp; Media GmbH
+# Copyright (C) 2023 Papoo Software &amp; Media GmbH
 # This file is distributed under the same license as the CCM19 Integration plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: CCM19 Integration 1.0.1\n"
+"Project-Id-Version: CCM19 Integration 1.1.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ccm19-integration\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-10-13T10:26:56+02:00\n"
+"POT-Creation-Date: 2023-08-31T11:09:35+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.4.0\n"
 "X-Domain: ccm19-integration\n"
@@ -35,6 +35,7 @@ msgid "https://papoo-media.de"
 msgstr ""
 
 #: class-ccm19-integration.php:83
+#: class-ccm19-integration.php:208
 msgid "General settings"
 msgstr ""
 
@@ -47,7 +48,7 @@ msgid "CCM19 Integration Options"
 msgstr ""
 
 #: class-ccm19-integration.php:144
-#: options-page.php:3
+#: options-page.php:2
 msgid "CCM19 Cookie Consent"
 msgstr ""
 
@@ -59,15 +60,15 @@ msgstr ""
 msgid "<p>If you don't yet have a CCM19 account or instance yet, buy or lease one on <a target=\"_blank\" href=\"https://ccm19.de\">ccm19.de</a>.</p>"
 msgstr ""
 
-#: options-page.php:7
+#: options-page.php:6
 msgid "<strong>The code snippet is invalid.</strong> CCM19 is not activated on your website."
 msgstr ""
 
-#: options-page.php:13
+#: options-page.php:12
 msgid "The code snippet is valid. CCM19 is active on your website."
 msgstr ""
 
-#: options-page.php:26
-#: options-page.php:46
+#: options-page.php:24
+#: options-page.php:44
 msgid "Open CCM19 backend"
 msgstr ""

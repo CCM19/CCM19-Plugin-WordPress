@@ -15,7 +15,7 @@
 
 
     <?php if(!is_network_admin() ):?>
-	<form method="POST" action="/wp-admin/options.php?action=ccm19option">
+	<form method="POST" action="options.php?action=ccm19option">
 		<?php settings_fields('ccm19-integration'); ?>
 		<?php do_settings_sections('ccm19-integration'); ?>
 
