@@ -3,7 +3,7 @@
 	Plugin Name: CCM19 Integration
 	Plugin URI: https://www.ccm19.de
 	Description: Integrates the CCM19 Cookie Consent Solution into WordPress
-	Version: 1.1.4
+	Version: 1.1.5
 	Author: Papoo Software &amp; Media GmbH
 	Author URI: https://papoo-media.de
 	License: GPLv2 or later
