@@ -126,8 +126,27 @@ class Ccm19Integration {
 	 * @return void
 	 */
 	public function on_wp_head() {
-		$integration_url = $this->get_integration_url();
-		
+        $is_thrive_editor = (
+            (isset($_GET['tve']) && $_GET['tve'] === 'true') ||
+            (isset($_GET['tcbf']) && $_GET['tcbf'] === 'true')
+        );
+        $is_iframe = isset($_SERVER['Sec-Fetch-Dest']) && $_SERVER['Sec-Fetch-Dest'] === 'iframe';
+        $is_admin_area = is_admin();
+        $is_customizer = is_customize_preview();
+        $has_valid_referrer = empty($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], '/wp-admin/') === false;
+
+        $should_add_script = (
+            !$is_admin_area &&
+            !$is_customizer &&
+            $has_valid_referrer &&
+            !$is_thrive_editor &&
+            !$is_iframe
+        );
+
+        if (!$should_add_script) {return;}
+
+        $integration_url = $this->get_integration_url();
+
 		if ( $integration_url ) {
 			wp_print_script_tag( [ 'src' => $integration_url, 'referrerpolicy' => 'origin' ] );
 		}
@@ -264,7 +283,7 @@ class Ccm19Integration {
 		exit;
 	}
 
-	//custom error log function for development only
+    //custom error log function for development only
 	public function custom_logs()
 	{
 		if ( ! function_exists('write_log')) {
