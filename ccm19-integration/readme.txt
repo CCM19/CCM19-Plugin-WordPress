@@ -2,7 +2,7 @@
 Contributors: Papoo Software & Media Gmbh
 Tags: cookie consent, cookie law, eu privacy directive, GDPR, DSGVO
 Requires at least: 5.1
-Tested up to: 6.8
+Tested up to: 6.9
 Stable tag: 1.1.9
 Requires PHP: 5.6
 License: GPLv2 or later
