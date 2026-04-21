@@ -17,6 +17,11 @@ ccm19-integration/languages/ccm19-integration-%.po: ccm19-integration/languages/
 %.mo: %.po
 	msgfmt -o "$@" "$<"
 
-.PHONY: all
+zip: all
+	rm -f ccm19-integration.zip
+	zip -r ccm19-integration.zip ccm19-integration/ \
+		--exclude "ccm19-integration/languages/*.pot"
+
+.PHONY: all zip
 
 .SECONDARY:
