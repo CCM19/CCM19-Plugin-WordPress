@@ -22,6 +22,9 @@ class Ccm19Integration {
 	/** @var self $instance */
 	private static $instance = null;
 
+	private ?bool $network_active = null;
+	private ?string $ccm19_code_cache = null;
+
 	/** @var string Convenient variable for site slug*/
 	protected $settings_slug = 'ccm19-integration';
 
@@ -101,15 +104,32 @@ class Ccm19Integration {
 		}
 	}
 
-	/**
-	 * Extract the ccm19.js url from the code snippet
-	 *
-	 * @return string|null
-	 */
+	private function is_network_active(): bool {
+		if ( $this->network_active !== null ) {
+			return $this->network_active;
+		}
+		if ( ! is_multisite() ) {
+			return $this->network_active = false;
+		}
+		if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+			require_once ABSPATH . '/wp-admin/includes/plugin.php';
+		}
+		return $this->network_active = is_plugin_active_for_network( plugin_basename( CCM19_PLUGIN_FILE ) );
+	}
+
+	private function get_ccm19_code(): string {
+		if ( $this->ccm19_code_cache !== null ) {
+			return $this->ccm19_code_cache;
+		}
+		return $this->ccm19_code_cache = $this->is_network_active()
+			? (string) get_site_option( 'ccm19_code', '' )
+			: (string) get_option( 'ccm19_code', '' );
+	}
+
 	private function get_integration_url()
 	{
 
-		$code = get_site_option( 'ccm19_code' );
+		$code = $this->get_ccm19_code();
 		if ( ! empty( $code ) ) {
 			$match = [];
 			preg_match( '/\bsrc=([\'"])((?>[^"\'?#]|(?!\1)["\'])*\/(ccm19|app)\.js\?(?>[^"\']|(?!\1).)*)\1/i', $code, $match );
@@ -133,12 +153,10 @@ class Ccm19Integration {
         $is_iframe = isset($_SERVER['Sec-Fetch-Dest']) && $_SERVER['Sec-Fetch-Dest'] === 'iframe';
         $is_admin_area = is_admin();
         $is_customizer = is_customize_preview();
-        $has_valid_referrer = empty($_SERVER['HTTP_REFERER']) || strpos($_SERVER['HTTP_REFERER'], '/wp-admin/') === false;
 
         $should_add_script = (
             !$is_admin_area &&
             !$is_customizer &&
-            $has_valid_referrer &&
             !$is_thrive_editor &&
             !$is_iframe
         );
@@ -173,12 +191,13 @@ class Ccm19Integration {
 	 */
 	public function options_page()
 	{
-		if ( ! current_user_can( 'manage_options' ) || ( is_multisite() && ! current_user_can( 'manage_network_options' ) ) ) {
+		if ( ! current_user_can( 'manage_options' ) || ( $this->is_network_active() && ! current_user_can( 'manage_network_options' ) ) ) {
 			wp_die( __( 'You do not have sufficient permissions to access this page.' ) );
 		}
 		$integration_url = $this->get_integration_url();
 		$admin_url       = ( $integration_url ) ? preg_replace( '%/(ccm19|app)\.js?.*$%i', '/', $integration_url ) : null;
-		include( WP_PLUGIN_DIR . '/ccm19-integration/options-page.php' );
+		$ccm19_code      = $this->get_ccm19_code();
+		include( plugin_dir_path( CCM19_PLUGIN_FILE ) . 'options-page.php' );
 	}
 
 	/**
@@ -201,7 +220,7 @@ class Ccm19Integration {
 	{
 		printf(
 			'<textarea id="ccm19-code" name="ccm19_code" cols="60" rows="4">%s</textarea>',
-			esc_attr( get_site_option( 'ccm19_code' ) )
+			esc_attr( $this->get_ccm19_code() )
 		);
 	}
 

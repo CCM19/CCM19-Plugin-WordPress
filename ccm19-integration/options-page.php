@@ -1,7 +1,7 @@
 <div class="wrap">
 	<h1><?php esc_html_e('CCM19 Cookie Consent', 'ccm19-integration'); ?></h1>
 	
-	<?php if (get_option('ccm19_code') && !$integration_url): ?>
+	<?php if ($ccm19_code && !$integration_url): ?>
 	<div id="ccm19-error" class="notice notice-error is-dismissible"> 
 		<p><?php _e('<strong>The code snippet is invalid.</strong> CCM19 is not activated on your website.', 'ccm19-integration'); ?></p>
 	</div>
